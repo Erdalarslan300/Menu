@@ -86,12 +86,18 @@ display:block;
 
 </div>
 
+<!-- ARKA PLAN MÜZİĞİ -->
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 
 const menuBtn = document.getElementById("menuBtn")
 const menuScreen = document.getElementById("menuScreen")
 const slider = document.getElementById("slider")
 const slides = document.querySelectorAll(".slide")
+const music = document.getElementById("bgMusic")
 
 let current = 0
 
@@ -114,6 +120,8 @@ menuBtn.onclick = () => {
 
 menuScreen.style.display = "none"
 slider.style.display = "block"
+
+music.play()   // MÜZİK BAŞLAT
 
 showSlide(0)
 

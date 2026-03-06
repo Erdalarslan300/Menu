@@ -1,52 +1,133 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title></title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menü</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+font-family:Arial;
+overflow:hidden;
+}
+
+/* MENÜ EKRANI */
+
+#menuScreen{
+position:absolute;
+width:100%;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:black;
+}
+
+#menuBtn{
+padding:18px 45px;
+font-size:22px;
+background:#d4af37;
+border:none;
+border-radius:30px;
+cursor:pointer;
+}
+
+/* SLIDER */
+
+#slider{
+display:none;
+position:absolute;
+width:100%;
+height:100vh;
+}
+
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.slide.active{
+display:block;
+}
+
+</style>
 </head>
-<body class="theme-romantic">
 
-<!-- START SCREEN -->
-<div id="startScreen" class="screen active">
-  <div class="start-card">
-    <h1 id="title"></h1>
-    <p>Menüyü Görmek İçin Tıkla</p>
-    <button id="startBtn">Gör</button>
-  </div>
+<body>
+
+<!-- MENÜ -->
+<div id="menuScreen">
+<button id="menuBtn">MENÜ</button>
 </div>
 
-<!-- PLAYER -->
-<div id="player" class="hidden">
+<!-- SLIDER -->
+<div id="slider">
 
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    <div class="story-bars" id="storyBars"></div>
-    <div class="top-controls">
-      <span id="customerName"></span>
-      <div class="controls">
-        <button id="soundToggle">🔊</button>
-        <button id="themeToggle">🎨</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY AREA -->
-  <div id="storyArea">
-    <img id="storyImage" src="" alt="story" />
-    <div id="overlayText"></div>
-
-    <!-- NAV ZONES -->
-    <div class="nav left"></div>
-    <div class="nav right"></div>
-  </div>
+<img src="images/1.jpg" class="slide active">
+<img src="images/2.jpg" class="slide">
+<img src="images/3.jpg" class="slide">
+<img src="images/4.jpg" class="slide">
+<img src="images/5.jpg" class="slide">
+<img src="images/6.jpg" class="slide">
 
 </div>
 
-<!-- AUDIO -->
-<audio id="bgMusic" src="audio/bg.mp3" loop></audio>
+<script>
 
-<script src="script.js"></script>
+const menuBtn = document.getElementById("menuBtn")
+const menuScreen = document.getElementById("menuScreen")
+const slider = document.getElementById("slider")
+
+const slides = document.querySelectorAll(".slide")
+
+let current = 0
+
+menuBtn.onclick = () => {
+
+menuScreen.style.display="none"
+slider.style.display="block"
+
+}
+
+function showSlide(index){
+
+slides[current].classList.remove("active")
+
+current = index
+
+if(current < 0) current = slides.length - 1
+if(current >= slides.length) current = 0
+
+slides[current].classList.add("active")
+
+}
+
+document.addEventListener("click",(e)=>{
+
+if(slider.style.display !== "block") return
+
+const x = e.clientX
+const width = window.innerWidth
+
+if(x > width/2){
+
+showSlide(current + 1)
+
+}else{
+
+showSlide(current - 1)
+
+}
+
+})
+
+</script>
+
 </body>
 </html>

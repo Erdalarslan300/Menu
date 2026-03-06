@@ -10,24 +10,25 @@
 body{
 margin:0;
 background:black;
-font-family:Arial;
+font-family:Arial, sans-serif;
 overflow:hidden;
 }
 
 /* MENÜ EKRANI */
 
 #menuScreen{
-position:absolute;
+position:fixed;
 width:100%;
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 background:black;
+z-index:10;
 }
 
 #menuBtn{
-padding:18px 45px;
+padding:18px 50px;
 font-size:22px;
 background:#d4af37;
 border:none;
@@ -39,16 +40,22 @@ cursor:pointer;
 
 #slider{
 display:none;
-position:absolute;
 width:100%;
 height:100vh;
+position:fixed;
+top:0;
+left:0;
 }
 
+/* GÖRSEL */
+
 .slide{
-position:absolute;
 width:100%;
 height:100%;
-object-fit:cover;
+object-fit:contain;
+position:absolute;
+top:0;
+left:0;
 display:none;
 }
 
@@ -67,9 +74,10 @@ display:block;
 </div>
 
 <!-- SLIDER -->
+
 <div id="slider">
 
-<img src="images/1.jpg" class="slide active">
+<img src="images/1.jpg" class="slide">
 <img src="images/2.jpg" class="slide">
 <img src="images/3.jpg" class="slide">
 <img src="images/4.jpg" class="slide">
@@ -83,37 +91,40 @@ display:block;
 const menuBtn = document.getElementById("menuBtn")
 const menuScreen = document.getElementById("menuScreen")
 const slider = document.getElementById("slider")
-
 const slides = document.querySelectorAll(".slide")
 
 let current = 0
 
-menuBtn.onclick = () => {
-
-menuScreen.style.display="none"
-slider.style.display="block"
-
-}
-
 function showSlide(index){
 
-slides[current].classList.remove("active")
+if(index < 0) index = 0
+if(index > slides.length - 1) index = slides.length - 1
+
+slides.forEach(s => s.classList.remove("active"))
+
+slides[index].classList.add("active")
 
 current = index
 
-if(current < 0) current = slides.length - 1
-if(current >= slides.length) current = 0
+}
 
-slides[current].classList.add("active")
+/* MENÜ BUTONU */
+
+menuBtn.onclick = () => {
+
+menuScreen.style.display = "none"
+slider.style.display = "block"
+
+showSlide(0)
 
 }
 
-document.addEventListener("click",(e)=>{
+/* TIKLAMA */
 
-if(slider.style.display !== "block") return
+slider.addEventListener("click",(e)=>{
 
-const x = e.clientX
 const width = window.innerWidth
+const x = e.clientX
 
 if(x > width/2){
 
